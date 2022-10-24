@@ -56,6 +56,13 @@ public class BooksController {
         return "redirect:/library/books/{id}";
     }
 
+    @PatchMapping("/books/{id}/absolve")
+    public String absolve(@PathVariable("id") int id){
+        libraryService.absolve(id);
+
+        return "redirect:/library/books/{id}";
+    }
+
     @GetMapping("/books/new")
     public String create(@ModelAttribute("book")Book book){
 

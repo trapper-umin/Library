@@ -24,6 +24,11 @@ public class PeopleController {
         this.libraryService=libraryService;
     }
 
+    @GetMapping
+    public String main(){
+        return "main";
+    }
+
     @GetMapping("/people")
     public String show(Model model){
         model.addAttribute("people",personDAO.show());

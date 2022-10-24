@@ -8,7 +8,12 @@
 <div th:text="${book.getName()+', '+book.getAuthor()+', '+book.getYear()}"></div>
 <br/>
 
-<div th:if="${boolean}" th:text="${'Now the book is at: '+owner.getName()}"></div>
+<div th:if="${boolean}">
+    <p th:text="${'Now the book is at: '+owner.getName()}"></p>
+    <form th:method="PATCH" th:action="@{/library/books/{id}/absolve(id=${book.getBook_id()})}">
+        <input type="submit" value="Absolve">
+    </form>
+</div>
 
 <div th:if="${not boolean}">
     <p>This book is free. Who should I assign it to?</p>

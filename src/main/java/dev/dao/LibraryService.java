@@ -38,4 +38,8 @@ public class LibraryService {
     public void select(int id, Book book){
         jdbcTemplate.update("UPDATE book SET person_id=? WHERE book_id=?",book.getOwner(),id);
     }
+
+    public void absolve(int id){
+        jdbcTemplate.update("UPDATE book SET person_id=null WHERE book_id=?",id);
+    }
 }
