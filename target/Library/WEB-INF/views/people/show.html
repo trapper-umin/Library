@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>all people</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th scope="col">Full name</th>
+    <th scope="col">Birth</th>
+    <th scope="col">Action</th>
+  </tr>
+  <tr th:each="person : ${people}">
+    <td th:text="${person.getName()}"></td>
+    <td th:text="${person.getBirth()}"></td>
+    <td>
+      <form th:method="GET" th:action="@{/library/people/{id}(id=${person.getPerson_id()})}">
+        <input type="submit" value="More">
+      </form>
+    </td>
+  </tr>
+</table>
+<hr/>
+<form th:method="GET" th:action="@{/library/people/new}">
+  <input type="submit" value="Add new person">
+</form>
+</body>
+</html>

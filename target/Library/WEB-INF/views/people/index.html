@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${person.getName()}"></title>
+</head>
+<body>
+<div th:text="${person.getName()+', '+person.getBirth()}"></div>
+
+<div th:if="${boolean}" th:text="${'Dont have books'}"></div>
+
+<div th:if="${not boolean}">
+    <hr/>
+    <table>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Year</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getName()}"></td>
+            <td th:text="${book.getAuthor()}"></td>
+            <td th:text="${book.getYear()}"></td>
+        </tr>
+    </table>
+</div>
+
+<hr/>
+<form th:method="GET" th:action="@{/library/people/{id}/edit(id=${person.getPerson_id()})}">
+    <input type="submit" value="Edit this person">
+</form>
+<form th:method="DELETE" th:action="@{/library/people/{id}(id=${person.getPerson_id()})}">
+    <input type="submit" value="Delete this person">
+</form>
+<form th:method="GET" th:action="@{/library/people}">
+    <input type="submit" value="Back">
+</form>
+</body>
+</html>
