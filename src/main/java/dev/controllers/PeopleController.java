@@ -4,6 +4,8 @@ import dev.dao.LibraryService;
 import dev.dao.PersonDAO;
 import dev.models.Book;
 import dev.models.Person;
+import dev.repositories.PeopleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +18,13 @@ import java.util.List;
 @RequestMapping("/library")
 public class PeopleController {
 
+    private final PeopleRepository peopleRepository;
     private final PersonDAO personDAO;
     private final LibraryService libraryService;
 
-    public PeopleController(PersonDAO personDAO, LibraryService libraryService){
+    @Autowired
+    public PeopleController(PeopleRepository peopleRepository, PersonDAO personDAO, LibraryService libraryService){
+        this.peopleRepository = peopleRepository;
         this.personDAO=personDAO;
         this.libraryService=libraryService;
     }
@@ -31,7 +36,7 @@ public class PeopleController {
 
     @GetMapping("/people")
     public String show(Model model){
-        model.addAttribute("people",personDAO.show());
+        model.addAttribute("people",peopleRepository.findAll());
 
         return "people/show";
     }

@@ -1,59 +1,94 @@
 package dev.models;
 
+import org.hibernate.annotations.Cascade;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
+@Entity
+@Table(name = "book")
 public class Book {
 
-    private int book_id;
-    private int owner;
+    @Id
+    @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @NotEmpty(message = "Book name should be not empty")
-   // @UniqueElements(message = "Book name should be unique")
-    @Size(min=3,max=300, message = "Book name size should be between 3 and 300")
+    @Size(min = 4,max = 255,message = "Book name size should be between 3 and 255")
+    @Column(name = "name")
     private String name;
+
     @NotEmpty(message = "Author should be not empty")
-    @Size(min=3,max=100, message = "Author name size should be between 3 and 100")
+    @Size(min = 4,max = 255,message = "Author name size should be between 3 and 255")
+    @Column(name = "author")
     private String author;
+
     @NotEmpty(message = "Year should be not empty")
-    private String year;
+    @Column(name = "year")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date year;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    private Person owner;
+
+    public Book(){}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public int getBook_id() {
-        return book_id;
-    }
-
-    public int getOwner() {
-        return owner;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public void setYear(String year) {
+    public Date getYear() {
+        return year;
+    }
+
+    public void setYear(Date year) {
         this.year = year;
     }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setOwner(int owner) {
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 }

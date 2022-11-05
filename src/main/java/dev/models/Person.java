@@ -1,41 +1,81 @@
 package dev.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
+@Entity
+@Table(name = "person")
 public class Person {
 
-    private int person_id;
-    @NotEmpty(message = "Name should be not empty")
-    @Size(min=3,max=100, message = "Full name size should be between 3 and 100")
-   // @UniqueElements(message = "Full name should be unique")
-    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+", message = "Should be (Name Surname)")
-    private String name;
-    @NotEmpty(message = "Birth should be not empty")
-    private String birth;
+    @Id
+    @Column(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public int getPerson_id() {
-        return person_id;
+    @NotEmpty(message = "Name should be not empty")
+    @Size(min = 4,max = 255,message = "Name size should be between 3 and 255")
+    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+",message = "Name should be 'Name Surname'")
+    @Column(name = "name")
+    private String name;
+
+    @NotEmpty(message = "Date of birth should be not empty")
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateOfBirth;
+
+    @Column(name = "registered_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registeredAt;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<Book> books;
+
+    public Person(){}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getBirth() {
-        return birth;
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Date registeredAt) {
+        this.registeredAt=registeredAt;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }
