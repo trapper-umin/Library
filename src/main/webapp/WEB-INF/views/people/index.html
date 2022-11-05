@@ -5,7 +5,7 @@
     <title th:text="${person.getName()}"></title>
 </head>
 <body>
-<div th:text="${person.getName()+', '+person.getBirth()}"></div>
+<div th:text="${person.getName()+', '+person.getDateOfBirth()}"></div>
 
 <div th:if="${boolean}" th:text="${'Dont have books'}"></div>
 
@@ -26,10 +26,10 @@
 </div>
 
 <hr/>
-<form th:method="GET" th:action="@{/library/people/{id}/edit(id=${person.getPerson_id()})}">
+<form th:method="GET" th:action="@{/library/people/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Edit this person">
 </form>
-<form th:method="DELETE" th:action="@{/library/people/{id}(id=${person.getPerson_id()})}">
+<form th:method="DELETE" th:action="@{/library/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Delete this person">
 </form>
 <form th:method="GET" th:action="@{/library/people}">

@@ -17,7 +17,7 @@
     <td th:text="${book.getAuthor()}"></td>
     <td th:text="${book.getYear()}"></td>
     <td>
-      <form th:method="GET" th:action="@{/library/books/{id}(id=${book.getBook_id()})}">
+      <form th:method="GET" th:action="@{/library/books/{id}(id=${book.getId()})}">
         <input type="submit" value="More">
       </form>
     </td>

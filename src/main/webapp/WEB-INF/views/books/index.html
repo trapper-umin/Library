@@ -27,10 +27,10 @@
 </div>
 
 <hr/>
-<form th:method="GET" th:action="@{/library/books/{id}/edit(id=${book.getBook_id()})}">
+<form th:method="GET" th:action="@{/library/books/{id}/edit(id=${book.getId()})}">
     <input type="submit" value="Edit this book">
 </form>
-<form th:method="DELETE" th:action="@{/library/books/{id}(id=${book.getBook_id()})}">
+<form th:method="DELETE" th:action="@{/library/books/{id}(id=${book.getId()})}">
     <input type="submit" value="Delete this book">
 </form>
 <form th:method="GET" th:action="@{/library/books}">

@@ -15,7 +15,7 @@
     <td th:text="${person.getName()}"></td>
     <td th:text="${person.getDateOfBirth()}"></td>
     <td>
-      <form th:method="GET" th:action="@{/library/people/{id}(id=${person.getPersonId()})}">
+      <form th:method="GET" th:action="@{/library/people/{id}(id=${person.getId()})}">
         <input type="submit" value="More">
       </form>
     </td>

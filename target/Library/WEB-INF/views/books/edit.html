@@ -6,7 +6,7 @@
 </head>
 <body>
 <p>Edit book</p>
-<form th:method="PATCH" th:action="@{/library/books/{id}/edit(id=${book.getBook_id()})}" th:object="${book}">
+<form th:method="PATCH" th:action="@{/library/books/{id}/edit(id=${book.getId()})}" th:object="${book}">
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name">
     <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
@@ -21,7 +21,7 @@
     <br/>
     <input type="submit" value="Edit">
 </form>
-<form th:method="GET" th:action="@{/library/books}">
+<form th:method="GET" th:action="@{/library/books/{id}(id=${book.getId()})}">
     <input type="submit" value="Back">
 </form>
 </body>

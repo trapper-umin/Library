@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @NotEmpty(message = "Year should be not empty")
+    @NotNull(message = "Year should be not null")
     @Column(name = "year")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
