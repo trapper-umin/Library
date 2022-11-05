@@ -35,7 +35,7 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date registeredAt;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Person(){}

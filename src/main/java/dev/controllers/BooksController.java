@@ -1,10 +1,8 @@
 package dev.controllers;
 
-import dev.dao.BookDAO;
-import dev.dao.LibraryService;
-import dev.dao.PersonDAO;
 import dev.models.Book;
 import dev.services.BooksService;
+import dev.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +16,12 @@ import javax.validation.Valid;
 public class BooksController {
 
     private final BooksService booksService;
+    private final PeopleService peopleService;
 
     @Autowired
-    public BooksController(BooksService booksService){
+    public BooksController(BooksService booksService, PeopleService peopleService){
         this.booksService=booksService;
+        this.peopleService = peopleService;
     }
 
     @GetMapping("/books")
@@ -33,32 +33,27 @@ public class BooksController {
 
     @GetMapping("/books/{id}")
     public String index(@PathVariable("id") int id,Model model){
-        model.addAttribute("book",booksService.findById(id));
 
-//        if(libraryService.thisBookHaveOwner(id)){
-//            model.addAttribute("owner",libraryService.whoOwner(id));
-//            model.addAttribute("boolean",true);
-//        }else{
-//            model.addAttribute("people",personDAO.show());
-//            model.addAttribute("boolean",false);
-//        }
+        model.addAttribute("book",booksService.findById(id));
+        model.addAttribute("owner", booksService.whoOwner(id));
+        model.addAttribute("people",peopleService.findAll());
 
         return "books/index";
     }
 
-//    @PatchMapping("/books/{id}")
-//    public String select(@PathVariable("id") int id,@ModelAttribute("book") Book book){
-//        libraryService.select(id,book);
-//
-//        return "redirect:/library/books/{id}";
-//    }
+    @PatchMapping("/books/{id}/select")
+    public String select(@PathVariable("id") int id,@ModelAttribute("book") Book book){
+        booksService.select(id,book);
 
-//    @PatchMapping("/books/{id}/absolve")
-//    public String absolve(@PathVariable("id") int id){
-//        libraryService.absolve(id);
-//
-//        return "redirect:/library/books/{id}";
-//    }
+        return "redirect:/library/books/{id}";
+    }
+
+    @PatchMapping("/books/{id}/absolve")
+    public String absolve(@PathVariable("id") int id){
+        booksService.absolve(id);
+
+        return "redirect:/library/books/{id}";
+    }
 
     @GetMapping("/books/new")
     public String create(@ModelAttribute("book")Book book){

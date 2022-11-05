@@ -7,9 +7,9 @@
 <body>
 <div th:text="${person.getName()+', '+person.getDateOfBirth()}"></div>
 
-<div th:if="${boolean}" th:text="${'Dont have books'}"></div>
+<div th:if="${books.size()==0}" th:text="${'Dont have books'}"></div>
 
-<div th:if="${not boolean}">
+<div th:if="${books.size()!=0}">
     <hr/>
     <table>
         <tr>

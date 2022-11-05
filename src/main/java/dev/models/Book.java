@@ -43,6 +43,9 @@ public class Book {
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Person owner;
 
+    @Transient
+    private int ownerId;
+
     public Book(){}
 
     public int getId() {
@@ -91,5 +94,13 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 }

@@ -1,5 +1,6 @@
 package dev.controllers;
 
+import dev.models.Book;
 import dev.models.Person;
 import dev.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/library")
@@ -36,15 +38,7 @@ public class PeopleController {
     @GetMapping("/people/{id}")
     public String index(@PathVariable("id")int id,Model model){
         model.addAttribute("person",peopleService.findById(id));
-
-//        List<Book> books=libraryService.personHaveBooks(id);
-//        System.out.println("Count of books: "+books.size());
-//        if(books.size()==0){
-//            model.addAttribute("boolean",true);
-//        }else if(books.size()>0){
-//            model.addAttribute("boolean",false);
-//            model.addAttribute("books",books);
-//        }
+        model.addAttribute("books",peopleService.personHaveBooks(id));
 
         return "people/index";
     }

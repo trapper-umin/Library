@@ -3,10 +3,12 @@ package dev.services;
 import dev.models.Book;
 import dev.models.Person;
 import dev.repositories.BooksRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +17,12 @@ import java.util.List;
 public class BooksService {
 
     private final BooksRepository booksRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public BooksService(BooksRepository booksRepository){
+    public BooksService(BooksRepository booksRepository, EntityManager entityManager){
         this.booksRepository=booksRepository;
+        this.entityManager = entityManager;
     }
 
     public List<Book> findAll(){
@@ -27,6 +31,38 @@ public class BooksService {
 
     public Book findById(int id){
         return booksRepository.findById(id).orElse(null);
+    }
+
+    public Person whoOwner(int id){
+        Session session=entityManager.unwrap(Session.class);
+
+        Book book=session.get(Book.class,id);
+        Person owner=book.getOwner();
+
+        return owner;
+    }
+
+    @Transactional
+    public void select(int id,Book book){
+        Session session=entityManager.unwrap(Session.class);
+
+        Person ownerBook=session.get(Person.class,book.getOwnerId());
+
+        book.setId(id);
+        book.setOwner(ownerBook);
+        book.setName(session.get(Book.class,id).getName());
+        book.setAuthor(session.get(Book.class,id).getAuthor());
+        book.setYear(session.get(Book.class,id).getYear());
+        book.setCreatedAt(session.get(Book.class,id).getCreatedAt());
+        booksRepository.save(book);
+    }
+
+    @Transactional
+    public void absolve(int id){
+        Session session=entityManager.unwrap(Session.class);
+
+        Book book=session.get(Book.class,id);
+        book.setOwner(null);
     }
 
     @Transactional
