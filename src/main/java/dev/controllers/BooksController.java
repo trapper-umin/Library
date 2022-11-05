@@ -27,7 +27,26 @@ public class BooksController {
     @GetMapping("/books")
     public String show(Model model){
         model.addAttribute("books",booksService.findAll());
+        return "books/show";
+    }
+    @GetMapping(value = "/books",params = {"page","books_per_page"})
+    public String show(@RequestParam("page") int page,@RequestParam("books_per_page") int booksPerPage,Model model){
 
+        model.addAttribute("books",booksService.findAllWithPagination(page,booksPerPage));
+
+        return "books/show";
+    }
+
+    @GetMapping(value = "/books",params = {"sort"})
+    public String show(@RequestParam("sort") boolean sort,Model model){
+        model.addAttribute("books",booksService.findAllWithSort(sort));
+        return "books/show";
+    }
+
+    @GetMapping(value = "books",params = {"page","books_per_page","sort"})
+    public String show(@RequestParam("page") int page,@RequestParam("books_per_page") int booksPerPage,
+                       @RequestParam("sort") boolean sort, Model model){
+        model.addAttribute("books",booksService.findAllWithPaginationAndSort(page,booksPerPage,sort));
         return "books/show";
     }
 

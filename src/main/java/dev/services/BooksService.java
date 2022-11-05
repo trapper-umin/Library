@@ -3,12 +3,16 @@ package dev.services;
 import dev.models.Book;
 import dev.models.Person;
 import dev.repositories.BooksRepository;
+import net.bytebuddy.description.annotation.AnnotationValue;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +31,19 @@ public class BooksService {
 
     public List<Book> findAll(){
         return booksRepository.findAll();
+    }
+
+    public List<Book> findAllWithPagination(int page,int booksPerPage){
+
+        return booksRepository.findAll(PageRequest.of(page,booksPerPage)).getContent();
+    }
+
+    public List<Book> findAllWithSort(boolean sort){
+        return booksRepository.findAll(Sort.by("year"));
+    }
+
+    public List<Book> findAllWithPaginationAndSort(int page,int booksPerPage,boolean sort){
+        return booksRepository.findAll(PageRequest.of(page,booksPerPage, Sort.by("year"))).getContent();
     }
 
     public Book findById(int id){
