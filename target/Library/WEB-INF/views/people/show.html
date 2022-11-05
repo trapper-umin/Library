@@ -13,9 +13,9 @@
   </tr>
   <tr th:each="person : ${people}">
     <td th:text="${person.getName()}"></td>
-    <td th:text="${person.getBirth()}"></td>
+    <td th:text="${person.getDateOfBirth()}"></td>
     <td>
-      <form th:method="GET" th:action="@{/library/people/{id}(id=${person.getPerson_id()})}">
+      <form th:method="GET" th:action="@{/library/people/{id}(id=${person.getId()})}">
         <input type="submit" value="More">
       </form>
     </td>

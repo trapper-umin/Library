@@ -1,9 +1,9 @@
 package dev.controllers;
 
-import dev.dao.LibraryService;
-import dev.dao.PersonDAO;
 import dev.models.Book;
 import dev.models.Person;
+import dev.services.PeopleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,12 +16,11 @@ import java.util.List;
 @RequestMapping("/library")
 public class PeopleController {
 
-    private final PersonDAO personDAO;
-    private final LibraryService libraryService;
+    private final PeopleService peopleService;
 
-    public PeopleController(PersonDAO personDAO, LibraryService libraryService){
-        this.personDAO=personDAO;
-        this.libraryService=libraryService;
+    @Autowired
+    public PeopleController(PeopleService peopleService){
+        this.peopleService=peopleService;
     }
 
     @GetMapping
@@ -31,23 +30,15 @@ public class PeopleController {
 
     @GetMapping("/people")
     public String show(Model model){
-        model.addAttribute("people",personDAO.show());
+        model.addAttribute("people",peopleService.findAll());
 
         return "people/show";
     }
 
     @GetMapping("/people/{id}")
     public String index(@PathVariable("id")int id,Model model){
-        model.addAttribute("person",personDAO.index(id));
-
-        List<Book> books=libraryService.personHaveBooks(id);
-        System.out.println("Count of books: "+books.size());
-        if(books.size()==0){
-            model.addAttribute("boolean",true);
-        }else if(books.size()>0){
-            model.addAttribute("boolean",false);
-            model.addAttribute("books",books);
-        }
+        model.addAttribute("person",peopleService.findById(id));
+        model.addAttribute("books",peopleService.personHaveBooks(id));
 
         return "people/index";
     }
@@ -63,14 +54,14 @@ public class PeopleController {
         if(bindingResult.hasErrors()){
             return "people/create";
         }
-        personDAO.create(person);
+        peopleService.create(person);
 
         return "redirect:/library/people";
     }
 
     @GetMapping("/people/{id}/edit")
     public String edit (@PathVariable("id") int id, Model model){
-        model.addAttribute("person",personDAO.index(id));
+        model.addAttribute("person",peopleService.findById(id));
 
         return "people/edit";
     }
@@ -82,14 +73,14 @@ public class PeopleController {
             return "people/edit";
         }
 
-        personDAO.update(id,person);
+        peopleService.update(id,person);
 
         return "redirect:/library/people/{id}";
     }
 
     @DeleteMapping("/people/{id}")
     public String delete(@PathVariable("id")int id){
-        personDAO.delete(id);
+        peopleService.delete(id);
 
         return "redirect:/library/people";
     }
