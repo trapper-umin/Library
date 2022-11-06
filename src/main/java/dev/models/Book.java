@@ -46,6 +46,9 @@ public class Book {
     @Transient
     private int ownerId;
 
+    @Transient
+    private String search;
+
     public Book(){}
 
     public int getId() {
@@ -102,5 +105,13 @@ public class Book {
 
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }
