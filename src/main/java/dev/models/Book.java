@@ -51,6 +51,9 @@ public class Book {
     private int ownerId;
 
     @Transient
+    private String ownerName;
+
+    @Transient
     private String search;
 
     @Transient
@@ -136,5 +139,13 @@ public class Book {
 
     public void setDelay(boolean delay) {
         this.delay = delay;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }
