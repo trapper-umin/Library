@@ -38,6 +38,10 @@ public class Book {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @Column(name = "date_taken")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTaken;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -48,6 +52,9 @@ public class Book {
 
     @Transient
     private String search;
+
+    @Transient
+    private boolean delay;
 
     public Book(){}
 
@@ -113,5 +120,21 @@ public class Book {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public Date getDateTaken() {
+        return dateTaken;
+    }
+
+    public void setDateTaken(Date dateTaken) {
+        this.dateTaken = dateTaken;
+    }
+
+    public boolean getDelay() {
+        return delay;
+    }
+
+    public void setDelay(boolean delay) {
+        this.delay = delay;
     }
 }
