@@ -46,6 +46,10 @@ public class BooksService {
         return booksRepository.findAll(PageRequest.of(page,booksPerPage, Sort.by("year"))).getContent();
     }
 
+    public List<Book> search(String search){
+        return booksRepository.findBookByNameStartingWith(search);
+    }
+
     public Book findById(int id){
         return booksRepository.findById(id).orElse(null);
     }
@@ -71,6 +75,8 @@ public class BooksService {
         book.setAuthor(session.get(Book.class,id).getAuthor());
         book.setYear(session.get(Book.class,id).getYear());
         book.setCreatedAt(session.get(Book.class,id).getCreatedAt());
+        book.setDateTaken(new Date());
+
         booksRepository.save(book);
     }
 
@@ -80,6 +86,7 @@ public class BooksService {
 
         Book book=session.get(Book.class,id);
         book.setOwner(null);
+        book.setDateTaken(null);
     }
 
     @Transactional

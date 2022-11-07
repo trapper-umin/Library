@@ -29,6 +29,7 @@ public class BooksController {
         model.addAttribute("books",booksService.findAll());
         return "books/show";
     }
+
     @GetMapping(value = "/books",params = {"page","books_per_page"})
     public String show(@RequestParam("page") int page,@RequestParam("books_per_page") int booksPerPage,Model model){
 
@@ -48,6 +49,22 @@ public class BooksController {
                        @RequestParam("sort") boolean sort, Model model){
         model.addAttribute("books",booksService.findAllWithPaginationAndSort(page,booksPerPage,sort));
         return "books/show";
+    }
+
+    @GetMapping("/books/search")
+    public String search(Model model){
+        model.addAttribute("search",new Book());
+        return "books/search";
+    }
+
+    @GetMapping(value = "books/search",params = {"search"})
+    public String search(@RequestParam("search") String search, Model model){
+        model.addAttribute("search",new Book());
+        model.addAttribute("books",booksService.search(search));
+
+        System.out.println("Search request: "+search);
+
+        return "books/search";
     }
 
     @GetMapping("/books/{id}")

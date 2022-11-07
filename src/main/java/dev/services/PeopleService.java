@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +42,21 @@ public class PeopleService {
         Person person=session.load(Person.class,id);
         List<Book> books=person.getBooks();
 
+        Date today=new Date();
+        long milliseconds;
+        int days;
+
+        for (Book book : books){
+            milliseconds=today.getTime()-book.getDateTaken().getTime();
+            days=(int)(milliseconds/(24*60*60*1000));
+            if(days>10)
+                book.setDelay(true);
+            else
+                book.setDelay(false);
+        }
+
         return books;
     }
-
     @Transactional
     public void create(Person person){
         person.setRegisteredAt(new Date());

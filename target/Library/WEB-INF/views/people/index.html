@@ -17,7 +17,7 @@
             <th scope="col">Author</th>
             <th scope="col">Year</th>
         </tr>
-        <tr th:each="book : ${books}">
+        <tr th:each="book : ${books}" th:style ="${book.getDelay()==true} ? 'color: red'">
             <td th:text="${book.getName()}"></td>
             <td th:text="${book.getAuthor()}"></td>
             <td th:text="${book.getYear()}"></td>
