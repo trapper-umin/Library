@@ -47,7 +47,15 @@ public class BooksService {
     }
 
     public List<Book> search(String search){
-        return booksRepository.findBookByNameStartingWith(search);
+        Session session=entityManager.unwrap(Session.class);
+
+        List<Book> books=booksRepository.findBookByNameStartingWith(search);
+
+        for (Book book: books){
+            book.setOwnerName(book.getOwner().getName());
+        }
+
+        return books;
     }
 
     public Book findById(int id){
